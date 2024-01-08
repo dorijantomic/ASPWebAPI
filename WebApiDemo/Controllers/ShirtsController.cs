@@ -13,7 +13,7 @@ namespace WebApiDemo.Controllers
         [HttpGet]
         public IActionResult GetShirts()
         {
-            return Ok("Reading all the shirts");
+            return Ok(ShirtRepository.GetShirts());
         }
         [HttpGet("{id}")]
         [Shirt_ValidateShirtIdFilter]
@@ -23,9 +23,11 @@ namespace WebApiDemo.Controllers
             return Ok(ShirtRepository.GetShirtById(id));
         }
         [HttpPost]
+        [Shirt_ValidateShirtObjectFilter]
         public IActionResult CreateShirt([FromBody]ShirtModel shirt)
         {
-            return Ok("Creating a shirt");
+            ShirtRepository.AddShirt(shirt);
+            return CreatedAtAction(nameof(GetShirtsById), new {id = shirt.ShirtId},shirt);
         }
         [HttpPut("{id}")]
         public IActionResult UpdateShirt(int id)

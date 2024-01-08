@@ -4,7 +4,7 @@ using WebApiDemo.Models.Repository;
 
 namespace WebApiDemo.Filters
 {
-    public class Shirt_ValidateShirtIdFilterAttribute: ActionFilterAttribute
+    public class Shirt_ValidateShirtIdFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -12,8 +12,9 @@ namespace WebApiDemo.Filters
 
             var shirtId = context.ActionArguments["id"] as int?;
 
-            if (shirtId.HasValue) {
-                if(shirtId.Value <= 0)
+            if (shirtId.HasValue)
+            {
+                if (shirtId.Value <= 0)
                 {
                     context.ModelState.AddModelError("ShirtId", "ShirtId is invalid.");
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
@@ -22,7 +23,7 @@ namespace WebApiDemo.Filters
                     };
                     context.Result = new BadRequestObjectResult(problemDetails);
                 }
-                else if(!ShirtRepository.ShirtsExists(shirtId.Value))
+                else if (!ShirtRepository.ShirtsExists(shirtId.Value))
                 {
                     context.ModelState.AddModelError("ShirtId", "ShirtId doesn't exist.");
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
@@ -31,7 +32,7 @@ namespace WebApiDemo.Filters
                     };
                     context.Result = new NotFoundObjectResult(problemDetails);
                 }
-               
+
             }
         }
     }
