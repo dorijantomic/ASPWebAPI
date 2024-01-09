@@ -4,16 +4,17 @@ using WebApiDemo.Models;
 using WebApiDemo.Models.Repository;
 
 
-public class Shirt_ValidateShirtObjectFilterAttribute : ActionFilterAttribute
+public class Shirt_ValidateCreateShirtFilterAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         base.OnActionExecuting(context);
+
         var shirt = context.ActionArguments["shirt"] as ShirtModel;
 
         if (shirt == null)
         {
-            context.ModelState.AddModelError("Shirt", "Shirt is invalid.");
+            context.ModelState.AddModelError("Shirt", "Shirt object is null.");
             var problemDetails = new ValidationProblemDetails(context.ModelState)
             {
                 Status = StatusCodes.Status400BadRequest
@@ -30,7 +31,7 @@ public class Shirt_ValidateShirtObjectFilterAttribute : ActionFilterAttribute
                 {
                     Status = StatusCodes.Status400BadRequest
                 };
-                context.Result = new ConflictObjectResult(problemDetails);
+                context.Result = new BadRequestObjectResult(problemDetails);
             }
         };
 
