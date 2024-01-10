@@ -10,13 +10,13 @@
             new ShirtModel{ShirtId = 4,Brand="Your Brand", Colour = "Yellow", Gender = "Men", Price = 30, Size=9},
 
         };
-        public static List<ShirtModel> GetShirts() 
+        public static List<ShirtModel> GetShirts()
         {
-            return shirts; 
+            return shirts;
         }
         public static bool ShirtsExists(int id)
         {
-            return shirts.Any(x =>x.ShirtId == id);
+            return shirts.Any(x => x.ShirtId == id);
         }
 
         public static ShirtModel? GetShirtById(int id)
@@ -47,6 +47,23 @@
             int maxId = shirts.Max(x => x.ShirtId);
             shirt.ShirtId = maxId + 1;
             shirts.Add(shirt);
+        }
+
+        public static void UpdateShirt(ShirtModel shirt)
+        {
+            var shirtToUpdate = shirts.First(x => x.ShirtId == shirt.ShirtId);
+            shirtToUpdate.Brand = shirt.Brand;
+            shirtToUpdate.Brand = shirt.Brand;
+            shirtToUpdate.Price = shirt.Price;
+            shirtToUpdate.Size = shirt.Size;
+            shirtToUpdate.Colour = shirt.Colour;
+            shirtToUpdate.Gender = shirt.Gender;
+        }
+
+        public static void DeleteShirt(int shirtId)
+        {
+            var shirtToDelete = shirts.First(x => x.ShirtId == shirtId);
+            shirts.Remove(shirtToDelete);
         }
     }
 }
